@@ -1,0 +1,108 @@
+# Pre-commit configuration
+repos:
+  # Pre-commit hooks repository
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      # Prevent direct commits to the main branch
+      - id: no-commit-to-branch
+        name: "No Commit to main"
+        args: ["--branch", "main"]
+      # Remove trailing whitespace from files
+      - id: trailing-whitespace
+      # Ensure files end with a newline character
+      - id: end-of-file-fixer
+      # Validate YAML files for syntax errors, allowing multiple documents
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      # Detect AWS credentials in the codebase
+      - id: detect-aws-credentials
+      # Detect merge conflict markers
+      - id: check-merge-conflict
+        alias: lint
+      # Detect and fix case conflicts in filenames
+      - id: check-case-conflict
+        alias: lint
+      # Check JSON files for syntax errors
+      - id: check-json
+        alias: lint
+      # Check TOML files for syntax errors
+      - id: check-toml
+        alias: lint
+      # Check if docstrings are present at the top of files
+      - id: check-docstring-first
+        alias: lint
+      # Detect AWS credentials in the codebase
+      - id: detect-aws-credentials
+        alias: lint
+        args: [--allow-missing-credentials]
+      # Fix requirements.txt files using pip-compile
+      - id: requirements-txt-fixer
+      # Fix mixed line endings in files
+      - id: mixed-line-ending
+        alias: lint
+        args: [--fix=lf]
+      # Pretty format JSON files
+      - id: pretty-format-json
+        alias: lint
+        args: [--autofix, --no-ensure-ascii, --no-sort-keys]
+
+  # Pre-commit Terraform repository
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.80.0
+    hooks:
+      # Format Terraform files for consistency
+      - id: terraform_fmt
+        name: Terraform Format
+        alias: lint
+        entry: terraform
+        args: [fmt, -recursive]
+        language: system
+        files: '\.tf$'
+
+  # Autoflake repository
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.0
+    hooks:
+      - id: autoflake
+        args: [--remove-all-unused-imports, --in-place]
+
+  # Isort repository
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        alias: lint
+        args: ["--profile", "black", "--filter-files"]
+
+  # Black repository
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+        alias: lint
+        args: [--line-length=100]
+
+  # Bandit
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        name: bandit
+        alias: security
+        args: ["-r", "src/lambda"]
+        always_run: true
+        additional_dependencies: ['bandit[toml]']
+        files: ^src/lambda/
+
+  # Checkov
+  - repo: https://github.com/bridgecrewio/checkov.git
+    rev: 2.3.187
+    hooks:
+      - id: checkov
+        name: checkov
+        alias: security
+        args: ["--directory", "infrastructure/terraform", "--download-external-modules", "true","--quiet", "--config-file", ".checkov.yaml"]
+        always_run: true
+        additional_dependencies: ['checkov==2.3.187']
+        files: ^infrastructure/terraform/

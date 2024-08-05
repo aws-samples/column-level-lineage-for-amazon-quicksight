@@ -1,0 +1,15 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+*.tfvars
+# terraform lambda builds
+infrastructure/terraform/builds
+
+
+# Python
+*.pyc
+__pycache__/
+venv/
+*.log

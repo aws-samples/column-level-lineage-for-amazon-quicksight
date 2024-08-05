@@ -1,0 +1,9 @@
+skip-check:
+  - CKV_AWS_21  # Skip that all data stored in the S3 bucket have versioning enabled
+  - CKV_AWS_19 # Skip that all data stored in the S3 bucket is securely encrypted at rest
+  - CKV_AWS_144 # Skip that S3 bucket has cross-region replication enabled
+  - CKV2_AWS_62 # Skip that S3 buckets should have event notifications enabled
+  - CKV_AWS_258 # Skip that Lambda function URLs AuthType is not None
+  - CKV_AWS_300 # Skip that S3 lifecycle configuration sets period for aborting failed uploads
+  - CKV_AWS_258 # Skip that Lambda function URLs AuthType is not None
+  - CKV_AWS_145 # Skip that S3 buckets are encrypted with AWS KMS by default
