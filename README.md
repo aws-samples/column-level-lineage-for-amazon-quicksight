@@ -1,4 +1,4 @@
-# Amazon Quicksight Column Lineage
+# Column Level Lineage for Amazon Quicksight
 
 This is the code repository for code sample used in AWS blog [Amazon Quicksight Column Lineage](https://aws.amazon.com/blogs/aws/)
 
